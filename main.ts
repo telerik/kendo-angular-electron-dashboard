@@ -1,10 +1,28 @@
-import { app, BrowserWindow, screen } from 'electron';
+import { app, BrowserWindow, screen, Menu } from 'electron';
 import * as path from 'path';
 import * as url from 'url';
 
 let win, serve;
 const args = process.argv.slice(1);
 serve = args.some(val => val === '--serve');
+
+const isWindows = process.platform === 'win32';
+
+function setMainMenu() {
+  const template = [{
+    label: isWindows ? 'Kendo UI' : app.getName(),
+    submenu: [{
+      label: isWindows ? 'Exit Kendo UI Dashboard' : `Quit ${app.getName()}`,
+      accelerator: isWindows ? 'Alt+F4' : 'CmdOrCtrl+Q',
+      click() {
+        app.quit();
+      }
+    }]
+  }];
+
+  const menu = Menu.buildFromTemplate(template);
+  Menu.setApplicationMenu(menu);
+}
 
 try {
   require('dotenv').config();
@@ -16,6 +34,9 @@ function createWindow() {
 
   const electronScreen = screen;
   const size = electronScreen.getPrimaryDisplay().workAreaSize;
+
+  // Create the menu
+  setMainMenu();
 
   // Create the browser window.
   win = new BrowserWindow({
