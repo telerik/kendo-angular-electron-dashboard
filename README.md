@@ -16,7 +16,7 @@ Currently runs with:
 
 - Angular v5.2.5
 - Angular-CLI v1.6.4
-- Electron v1.8.2
+- Electron v1.8.6
 - Electron Builder v20.0.4
 
 With this sample, you can :
